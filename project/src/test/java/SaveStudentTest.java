@@ -1,6 +1,7 @@
 import domain.Nota;
 import domain.Student;
 import domain.Tema;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import repository.NotaXMLRepository;
 import repository.StudentXMLRepository;
@@ -15,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@Tag("SaveStudentTest")
 class SaveStudentTest {
     Validator<Student> studentValidator = new StudentValidator();
     Validator<Tema> temaValidator = new TemaValidator();
