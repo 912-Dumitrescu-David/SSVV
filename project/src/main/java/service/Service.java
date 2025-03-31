@@ -29,7 +29,6 @@ public class Service {
     public int saveStudent(String id, String nume, int grupa) {
         Student student = new Student(id, nume, grupa);
         Student result = studentXmlRepo.save(student);
-        System.out.println(result);
         if (result == null) {
             return 1;
         }
