@@ -1,7 +1,6 @@
 import domain.Nota;
 import domain.Student;
 import domain.Tema;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import repository.NotaXMLRepository;
 import repository.StudentXMLRepository;
@@ -12,11 +11,8 @@ import validation.StudentValidator;
 import validation.TemaValidator;
 import validation.Validator;
 
-import static org.junit.jupiter.api.Assertions.fail;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
-@Tag("SaveStudentTest")
 class SaveStudentTest {
     Validator<Student> studentValidator = new StudentValidator();
     Validator<Tema> temaValidator = new TemaValidator();
@@ -31,71 +27,77 @@ class SaveStudentTest {
     @Test
     void saveStudentCorrect() {
         try {
-            service.saveStudent("123", "Name", 932);
+            assertEquals(0, service.saveStudent("123", "Name", 932));
         } catch (Exception e) {
-            fail();
+            fail("Exception thrown: " + e.getMessage());
+        } finally {
+            service.deleteStudent("123"); // Cleanup
         }
-        service.deleteStudent("123");
-        assertTrue(true);
     }
 
     @Test
-    void saveStudent_EmptyId() {
-        try {
-            service.saveStudent("", "John Doe", 932);
-            fail();
-        } catch (Exception ignored) {
-        }
-        assertTrue(true);
+    void saveStudent_EmptyId_ShouldFail() {
+        assertEquals(1, service.saveStudent("", "John Doe", 932), "Empty ID should fail");
     }
 
     @Test
-    void saveStudent_NullId() {
-        try {
-            service.saveStudent(null, "John Doe", 932);
-            fail();
-        } catch (Exception ignored) {
-        }
-        assertTrue(true);
+    void saveStudent_NullId_ShouldFail() {
+        assertEquals(1, service.saveStudent(null, "John Doe", 932), "Null ID should fail");
     }
 
     @Test
-    void saveStudent_EmptyName() {
-        try {
-            service.saveStudent("123", "", 932);
-            fail();
-        } catch (Exception ignored) {
-        }
-        assertTrue(true);
+    void saveStudent_EmptyName_ShouldFail() {
+        assertEquals(1, service.saveStudent("123", "", 932), "Empty name should fail");
     }
 
     @Test
-    void saveStudent_NullName() {
-        try {
-            service.saveStudent("123", null, 932);
-            fail();
-        } catch (Exception ignored) {
-        }
-        assertTrue(true);
+    void saveStudent_NullName_ShouldFail() {
+        assertEquals(1, service.saveStudent("123", null, 932), "Null name should fail");
     }
 
     @Test
-    void saveStudent_ZeroGroup() {
-        try {
-            service.saveStudent("123", "John Doe", 0);
-            fail();
-        } catch (Exception ignored) {
-        }
-        assertTrue(true);
+    void saveStudent_ZeroGroup_ShouldFail() {
+        assertEquals(1, service.saveStudent("123", "John Doe", 0), "Group 0 should fail");
     }
 
     @Test
-    void saveStudent_NegativeGroup() {
+    void saveStudent_NegativeGroup_ShouldFail() {
+        assertEquals(1, service.saveStudent("123", "John Doe", -1), "Negative group should fail");
+    }
+
+
+    @Test
+    void saveStudent_Group109_ShouldFail() {
+        assertEquals(1, service.saveStudent("123", "John Doe", 110), "Group 110 should fail (out of bounds)");
+    }
+
+//BVA
+
+    @Test
+    void saveStudent_Group110_ShouldPass() {
         try {
-            service.saveStudent("123", "John Doe", -1);
-            fail();
-        } catch (Exception ignored) {
+            assertEquals(0, service.saveStudent("123", "John Doe", 111));
+        } catch (Exception e) {
+            fail("Exception thrown: " + e.getMessage());
+        } finally {
+            service.deleteStudent("123");
         }
-        assertTrue(true);
+    }
+
+    @Test
+    void saveStudent_Group938_ShouldPass() {
+        try {
+            assertEquals(0, service.saveStudent("123", "John Doe", 937));
+        } catch (Exception e) {
+            fail("Exception thrown: " + e.getMessage());
+        } finally {
+            service.deleteStudent("123");
+        }
+    }
+
+    @Test
+    void saveStudent_Group939_ShouldFail() {
+        assertEquals(1, service.saveStudent("123", "John Doe", 938), "Group 938 should fail (out of bounds)");
     }
 }
+

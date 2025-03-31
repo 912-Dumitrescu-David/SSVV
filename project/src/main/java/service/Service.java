@@ -3,6 +3,7 @@ package service;
 import domain.*;
 import repository.*;
 
+import java.io.Console;
 import java.time.LocalDate;
 import java.time.temporal.WeekFields;
 import java.util.Locale;
@@ -28,6 +29,7 @@ public class Service {
     public int saveStudent(String id, String nume, int grupa) {
         Student student = new Student(id, nume, grupa);
         Student result = studentXmlRepo.save(student);
+        System.out.println(result);
         if (result == null) {
             return 1;
         }
