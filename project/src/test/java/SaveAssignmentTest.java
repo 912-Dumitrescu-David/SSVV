@@ -14,7 +14,7 @@ import validation.Validator;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
-public class AddAssignmentTest {
+public class SaveAssignmentTest {
     Validator<Student> studentValidator = new StudentValidator();
     Validator<Tema> temaValidator = new TemaValidator();
     Validator<Nota> notaValidator = new NotaValidator();
