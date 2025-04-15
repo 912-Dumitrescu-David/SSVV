@@ -53,7 +53,7 @@ public class SaveAssignmentTest {
 
     @Test
     void saveAssignmentZeroStartline(){
-        assertEquals(1, service.saveTema("2", "descriere", 7, 011));
+        assertEquals(1, service.saveTema("2", "descriere", 7, 0));
     }
 
 }
