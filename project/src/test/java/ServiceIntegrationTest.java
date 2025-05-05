@@ -1,5 +1,6 @@
 import domain.Pair;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
@@ -11,8 +12,7 @@ import service.Service;
 
 
 import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 class ServiceIntegrationTest {
 
@@ -34,6 +34,11 @@ class ServiceIntegrationTest {
     notaXMLRepository = mock(NotaXMLRepository.class);
 
     service = new Service(studentXMLRepository, temaXMLRepository, notaXMLRepository);
+  }
+
+  @BeforeEach
+  public void resetMocks() {
+    reset(studentXMLRepository, temaXMLRepository, notaXMLRepository);
   }
 
   @Test
